@@ -1,30 +1,26 @@
-const imc = require('./imc');
-const { askName, askHeight, askWeight } = require('./input');
+const readline = require('readline-sync');
 
-function answer() {
-  const name = askName();
-  const height = askHeight();
-  const weight = askWeight();
-  const imcFinal = imc(height, weight).toFixed(2);
-  let imcResult = ''
+const scriptsList = ['1 - Cálculo de IMC', '2 - Cálculo de velocidade', '3 - Jogo de adininhação'];
 
-  if(imcFinal < 18.5){
-    imcResult = 'Abaixo do peso (magreza)';
-  } else if (imcFinal >= 18.5 && imcFinal < 25) {
-    imcResult = 'Peso normal';
-  } else if (imcFinal >= 25 && imcFinal < 30) {
-    imcResult = 'Acima do peso (sobrepeso)';
-  } else if (imcFinal >= 30 && imcFinal < 35) {
-    imcResult = 'Obesidade grau I';
-  } else if (imcFinal >= 35 && imcFinal < 40) {
-    imcResult = 'Obesidade grau II';
-  } else if (imcFinal >= 40) {
-    imcResult = 'Obesidade grau III e IV';
-  } else {
-    imcResult = 'Desculpe, cálculo incorreto';
+const askScript = () => {
+  return readline.questionInt('Escolha um programa para começar (digite somente o número): \n' + scriptsList.join('\n') + '\n');
+};
+const answer = askScript();
+
+function main() {
+  switch(answer) {
+    case 1 :
+      require('./imc')
+      break
+    case 2 :
+      require('./velocidade')
+      break
+    case 3 : 
+      require('./sorteio')
+      break
+    default : 
+      console.log('você digitou número inválido, tente novamente!')
   }
-
-  console.log(`O IMC de ${name} é de ${imcFinal}. Sua situação é: ${imcResult}`)
 }
 
-answer();
+main();
